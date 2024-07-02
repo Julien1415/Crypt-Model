@@ -1,6 +1,6 @@
 # Crypt-model
-Implementation of a PDE model of intestinal crypt.\
-Each of these code files is independent of one another.\
+Implementation of a PDE model of intestinal crypt.
+Each of these code files is independent of one another.
 
 Small desciption of each file :\
 
