@@ -1,7 +1,12 @@
 # Crypt-model
-### Implementation of a PDE model of intestinal crypt. Each of these code files is independent of one another.  
+### Implementation of a PDE model of intestinal crypt.   
 
-## Small description of each file :  
+\begin{align}[left=\empheqlbrace]
+    \partial_t u_1  \,&=\; \partial_x \Big(u_1 \partial_x \big(u_1 +u_2 \big)\Big),\\
+    \partial_t u_2  \,&=\; \partial_x \Big(u_2 \partial_x \big(u_1 +u_2 \big)\Big).
+\end{align}
+
+## Small description of each file (each of these code files is independent of one another)
 - *(u,w)-system_Upwind_and_more.py* :
 Upwind, Central, Characteristics, IMEX-Upwind, IMEX-Central and LagrangeRemap schemes for the $(u,w)$-system, with $v$.  
 
@@ -17,5 +22,5 @@ Euler, RK2, RK4 in time and Upwind, MUSCL (minmod, superbee, osher, ultrabee), o
 - *(sc,pc,gc,ent,dcs)_Upwind.py* :
 Upwind scheme for the complete model, with source terms and $\phi$.  
 
-## Instructions :  
+## Instructions  
 Choose the scheme you want with the "methode_u", "methode_w" or "methode_temps", "methode_espace" variables, choose the initial condition profils you want, then run the code.  
