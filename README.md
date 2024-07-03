@@ -41,6 +41,6 @@ Choose the scheme you want with the "methode_u", "methode_w" or "methode_temps",
 
 ### Each file is composed of several parts :  
 - Firt part : Definition of the functions used for the numerical scheme, the definition of the initial conditions, and some parameters of the model.
-- Second part : where you choose the schemes you want + solve.
+- Second part : where you choose the schemes you want + the values of $dx,tmax$ and $cfl$, then solve.
 - Third part : Plot of the solutions, reconstructions of the solutions $u_1,u_2$ for the $(u,w)$-system...
 - Last part : TVD, convergence orders, entropy...
