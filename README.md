@@ -3,10 +3,10 @@
 
 ## Small description of each file :  
 - *(u,w)-system_Upwind_and_more.py* :
-Upwind,Central,Characteristics,IMEX-Upwind, IMEX-Central and LagrangeRemap scheme for the $(u,w)$-system, with $v$.  
+Upwind, Central, Characteristics, IMEX-Upwind, IMEX-Central and LagrangeRemap schemes for the $(u,w)$-system, with $v$.  
 
 - *(u,w)-system_MUSCL-RK4.py* :
-Euler, RK2 or RK4 in time and MUSCL with minmod, superbee, osher or ultrabee flux limiter in space for the $(u,w)$-system (written in $(u,\xi,\eta)$), with $v$.  
+Euler, RK2 or RK4 in time and MUSCL (minmod, superbee, osher or ultrabee flux limiter) in space for the $(u,w)$-system (written in $(u,\xi,\eta)$), with $v$.  
 
 - *(u,w)-system_Lagrangian.py* :
 Lagrangian scheme for the $(u,w)$-system.  
