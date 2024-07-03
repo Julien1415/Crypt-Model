@@ -1,10 +1,12 @@
 # Crypt-model
 ### Implementation of a PDE model of intestinal crypt.   
 
+$$
 \begin{align}
     \partial_t u_1  \,&=\; \partial_x \Big(u_1 \partial_x \big(u_1 +u_2 \big)\Big),\\
     \partial_t u_2  \,&=\; \partial_x \Big(u_2 \partial_x \big(u_1 +u_2 \big)\Big).
 \end{align}
+$$
 
 ## Small description of each file (each of these code files is independent of one another)
 - *(u,w)-system_Upwind_and_more.py* :
