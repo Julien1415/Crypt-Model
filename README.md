@@ -1,10 +1,21 @@
 # Crypt-model
 ### Implementation of a PDE model of intestinal crypt.   
 
+$(u,w)$-system :  
+
 $$
-\begin{align}[left=\empheqlbrace]
-    \partial_t u_1  &= \partial_x \Big(u_1 \partial_x \big(u_1 +u_2 \big)\Big),\\
-    \partial_t u_2  &= \partial_x \Big(u_2 \partial_x \big(u_1 +u_2 \big)\Big).
+\begin{align}
+    &\partial_t u_1  = \partial_x \Big(u_1 \partial_x \big(u_1 +u_2 \big)\Big),\\
+    &\partial_t u_2  = \partial_x \Big(u_2 \partial_x \big(u_1 +u_2 \big)\Big).
+\end{align}
+$$
+
+$(u_1,u_2)$-system :  
+
+$$
+\begin{align}
+    &\partial_t u = \partial_x\big( u\partial_x u \big),\\
+    &\partial_t w = \partial_x u\,\partial_x w.
 \end{align}
 $$
 
