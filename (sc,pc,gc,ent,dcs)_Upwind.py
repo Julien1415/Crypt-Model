@@ -83,7 +83,7 @@ def f(p,pp,dx,phi_vect): #pp = ptot-p
 
     return y
 
-def solve_terme_source(sc_0,pc_0,dcs,gc_0,ent_0,nt,dt,dx,Xe,f1,f2,phi):
+def solve_crypt(sc_0,pc_0,dcs,gc_0,ent_0,nt,dt,dx,Xe,f1,f2,phi):
     tps = time()
 
     sc_mat = np.zeros((1,len(sc_0)))
@@ -129,15 +129,15 @@ def solve_terme_source(sc_0,pc_0,dcs,gc_0,ent_0,nt,dt,dx,Xe,f1,f2,phi):
         gc_old = gc_new
         ent_old = ent_new
 
-        if (n%(nt//mem)==0) or (n==nt-1): #garde en mémoire une partie des itérations
-            print(f"\r{int(len(list_t)/mem*100)}% ",end="",flush=True) #print avancement en %
+        if (n%(nt//mem)==0) or (n==nt-1): #keep in memeory some of the iterations
+            print(f"\r{int(len(list_t)/mem*100)}% ",end="",flush=True) #print of the advancement in %
             sleep(0.001)
             sc_mat = np.vstack([sc_mat,sc_new])
             pc_mat = np.vstack([pc_mat,pc_new])
             gc_mat = np.vstack([gc_mat,gc_new])
             ent_mat = np.vstack([ent_mat,ent_new])
             list_t.append(n)
-    print("","Temps Upwind :",np.round(timedelta(seconds=time()-tps).total_seconds(),3),"secondes")
+    print("","Upwind :",np.round(timedelta(seconds=time()-tps).total_seconds(),3),"seconds")
 
     return sc_mat,pc_mat,gc_mat,ent_mat,list_t
 
@@ -178,21 +178,21 @@ def init_dcs(X): #dcs as in the article
             dcs.append(0)
     return np.array(dcs)
 
-#%% Parameters and initialisation
+#%% Mesh and initialisation
 
-long = 1.0 ; coef_cfl = 0.4 ; tmax = 0.003 ; dx = 1/400
+long = 1.0 ; coef_cfl = 0.4 ; tmax = 0.01 ; dx = 1/250 #choose the values of the cfl, tmax and dx you want
 dt = coef_cfl*dx**2 ; dt = 1/(int(1/dt)+1) #dt following the cfl and such as the inverse is an integer
 nx = round(long/dx-1) ; Xe,dx = np.linspace(0,long,nx+2,retstep=True)
 nt = round(tmax/dt+1) ; Xt,dt = np.linspace(0,tmax,nt,retstep=True)
 
-sc_0 = init_sc(Xe) ; pc_0 = init_pc(Xe) ; dcs = init_dcs(Xe) ; gc_0 = init_gc(Xe) ; ent_0 = init_ent(Xe)
+sc_0 = init_sc(Xe) ; pc_0 = init_pc(Xe) ; dcs = init_dcs(Xe) ; gc_0 = init_gc(Xe) ; ent_0 = init_ent(Xe) #initialisation
 
-cfl = dt/dx**2 ; print(f"N={nx+1}, nt={nt}, dt/dx**2 = {np.round(cfl,4)}")
+cfl = dt/dx**2 ; print(f"{nx+1} mesh cells, {nt-1} iterations in time, dt/dx**2 = {np.round(cfl,4)}")
 
 #Solve
-sc_mat,pc_mat,gc_mat,ent_mat,t = solve_terme_source(sc_0,pc_0,dcs,gc_0,ent_0,nt,dt,dx,Xe,f1,f2,phi)
+sc_mat,pc_mat,gc_mat,ent_mat,t = solve_crypt(sc_0,pc_0,dcs,gc_0,ent_0,nt,dt,dx,Xe,f1,f2,phi) #solve
 
-#%% Graphes termes sources, phi
+#%% Graphs source terms, phi
 
 # plt.figure()
 # plt.plot(Xe,f1(Xe,300+dcs),'-',label="$f_1$")
@@ -216,7 +216,7 @@ sc_mat,pc_mat,gc_mat,ent_mat,t = solve_terme_source(sc_0,pc_0,dcs,gc_0,ent_0,nt,
 # Initial conditions sc_0,pc_0,dcs
 # plt.figure() ; plt.plot(Xe,sc_0,'b--',label=r"$\rho_{sc}^0$") ; plt.plot(Xe,pc_0,'r--',label=r"$\rho_{pc}^0$") ; plt.plot(Xe,dcs,'m-',label=r"$\rho_{dcs}$") ;plt.xlim(0,1.1) ; plt.ylim(0,1.1) ; plt.xlabel("x") ; plt.legend() ; plt.title("Conditions initiales "+r"$\rho_{sc}^0,\rho_{pc}^0,\rho_{dcs},$"+f" N={nx+1}")
 
-masse_sc = dx*np.sum(sc_0) ; masse_pc = dx*np.sum(pc_0) ; masse_dcs = dx*np.sum(dcs) ; xshock = masse_sc/(masse_sc+masse_pc)
+mass_sc = dx*np.sum(sc_0) ; mass_pc = dx*np.sum(pc_0) ; mass_dcs = dx*np.sum(dcs) ; xshock = mass_sc/(mass_sc+mass_pc)
 
 def plot(sc_mat,pc_mat,dcs,sc_0,pc_0,t):
     plt.figure()
@@ -224,20 +224,20 @@ def plot(sc_mat,pc_mat,dcs,sc_0,pc_0,t):
         plt.cla()
 
         plt.plot(Xe,sc_mat[n,:],'b.-',label=r"$\rho_{sc}$")
-        # plt.plot(Xe,sc_mat[n,:]+dcs,'b.-',label=r"$\rho_{SC}(+\rho_{DCS})$")
-        plt.plot(Xe,sc_0,'b--',label=r"$\rho_{SC}(t=0)$")
-        # plt.plot(Xe,pc_mat[n,:],'r.-',label=r"$\rho_{PC}$")
-        plt.plot(Xe,pc_mat[n,:]+dcs,'r.-',label=r"$\rho_{PC}(+\rho_{DCS})$")
-        plt.plot(Xe,pc_0,'r--',label=r"$\rho_{PC}(t=0)$")
-        plt.plot(Xe,dcs,'m-',label=r"$\rho_{DCS}$")
-        plt.plot(Xe,sc_mat[n,:]+pc_mat[n,:]+dcs,'k--',label="Total")
+        # plt.plot(Xe,sc_mat[n,:]+dcs,'b.-',label=r"$\rho_{sc}(+\rho_{dcs})$")
+        plt.plot(Xe,sc_0,'b--',label=r"$\rho_{sc}(t=0)$")
+        # plt.plot(Xe,pc_mat[n,:],'r.-',label=r"$\rho_{pc}$")
+        plt.plot(Xe,pc_mat[n,:]+dcs,'r.-',label=r"$\rho_{pc}(+\rho_{dcs})$")
+        plt.plot(Xe,pc_0,'r--',label=r"$\rho_{pc}(t=0)$")
+        plt.plot(Xe,dcs,'m-',label=r"$\rho_{dcs}$")
+        plt.plot(Xe,sc_mat[n,:]+pc_mat[n,:]+dcs,'k--',label="total")
 
         plt.ylim(-0.03,1.4)
         plt.xlim(0,0.99)
         plt.legend()
         plt.title(f"Upwind, N={nx+1}, t={round(t[n]*dt,4)}")
-        plt.xlabel(f"dt/dx**2={np.round(cfl,4)}, max(u0)={np.round(np.max(np.abs(sc_0+pc_0)),4)}, norm1(u0)={np.round(masse_sc+masse_pc,5)}")
-        plt.ylabel("Densités")
+        plt.xlabel(f"dt/dx**2={np.round(cfl,3)}, mass(u0)={np.round(mass_sc+mass_pc,4)}")
+        plt.ylabel("Densities")
         plt.pause(0.01+0.5/(n**2+1))
 
 plot(sc_mat,pc_mat,dcs,sc_0,pc_0,t)
