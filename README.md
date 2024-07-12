@@ -37,7 +37,7 @@ Euler, RK2, RK4 in time and Upwind, MUSCL (minmod, superbee, osher, ultrabee), o
 Euler-Upwind scheme for the complete model, with source terms and $\phi$.  
 
 ## Instructions and general structure of the code  
-Choose the scheme you want with the "methode_u", "methode_w" or "methode_temps", "methode_espace" variables, choose the initial condition profils you want, and choose what you to plot (all by commenting/decommenting code lines) then run the code.  
+Choose the scheme you want with the "methode_u", "methode_w" or "methode_temps", "methode_espace" variables, choose the initial condition profils you want, and choose what you to plot (by commenting/decommenting code lines), then run the code.  
 
 ### Each file is composed of several parts :  
 - Firt part : Definition of the functions used for the numerical scheme, the definition of the initial conditions, and some parameters of the model.
