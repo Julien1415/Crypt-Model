@@ -34,7 +34,7 @@ Lagrangian scheme for the $(u,w)$-system.
 Euler, RK2, RK4 in time and Upwind, MUSCL (minmod, superbee, osher, ultrabee), or LagrangeRemap in space for the $(u_1,u_2)$-system, with term $v$. TVD, convergence order.
 
 - *(sc,pc,gc,ent,dcs)_Upwind.py* :
-Upwind scheme for the complete model, with source terms and $\phi$.  
+Euler-Upwind scheme for the complete model, with source terms and $\phi$.  
 
 ## Instructions and general structure of the code  
 Choose the scheme you want with the "methode_u", "methode_w" or "methode_temps", "methode_espace" variables, choose the initial condition profils you want, and choose what you to plot (all by commenting/decommenting code lines) then run the code.  
