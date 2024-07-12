@@ -6,7 +6,7 @@ $(u,w)$-system :
 $$
 \begin{align}
     &\partial_t u = \partial_x\big( u\partial_x u \big),\\
-    &\partial_t w = \partial_x u\,\partial_x w.
+    &\partial_t w = \partial_x u\partial_x w.
 \end{align}
 $$
 
